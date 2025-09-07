@@ -59,18 +59,21 @@ export default function AddProduct() {
   // Upload to Cloudinary (replace your_cloud_name and upload_preset)
   const uploadToCloudinary = async (file: File) => {
     const formDataObj = new FormData();
-    formDataObj.append('file', file);
-    formDataObj.append('upload_preset', 'your_upload_preset'); // Replace with your preset
-    
+    formDataObj.append("file", file);
+    formDataObj.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!);
+
     try {
-      const response = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', {
-        method: 'POST',
-        body: formDataObj
-      });
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formDataObj,
+        }
+      );
       const data = await response.json();
-      return data.secure_url;
+      return data.secure_url; // <-- This is what you'll store in Mongo
     } catch (error) {
-      console.error('Image upload failed:', error);
+      console.error("Image upload failed:", error);
       throw error;
     }
   };
@@ -90,7 +93,7 @@ export default function AddProduct() {
         url: imageUrl
       };
 
-      const response = await fetch('/api/products', {
+      const response = await fetch('/api/productUpload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productData),

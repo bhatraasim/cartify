@@ -1,38 +1,33 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { IProduct } from "@/model/Product";
 
-type Product = {
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  sizes: string[];
-  colors: string[]; // hex codes or color names
-};
+
 
 interface ProductCardProps {
-  product: Product;
+  product: IProduct;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0]);
-  const [selectedColor, setSelectedColor] = useState<string>(product.colors[0]);
+
+  const [selectedSize, setSelectedSize] = useState<string>(product.size[0]);
+  const [selectedColor, setSelectedColor] = useState<string>(product.color[0]);
 
   return (
     <div className="w-72 bg-white rounded-2xl shadow-lg p-4 flex flex-col">
       {/* Product Image */}
       <div className="flex justify-center mb-4">
         <img
-          src={product.image}
-          alt={product.name}
+          src={product.url}
+          alt={product.title}
           className="h-48 object-contain"
         />
       </div>
 
       {/* Product Info */}
-      <h3 className="text-lg font-semibold">{product.name}</h3>
-      <p className="text-sm text-gray-500">{product.description}</p>
+      <h3 className="text-lg font-semibold">{product.title}</h3>
+      <p className="text-sm text-gray-500">{product.desc}</p>
 
       {/* Size & Color */}
       <div className="flex items-center justify-between mt-3">
@@ -44,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             onChange={(e) => setSelectedSize(e.target.value)}
             className="border rounded-md px-2 py-1 text-sm"
           >
-            {product.sizes.map((size) => (
+            {product.size.map((size) => (
               <option key={size} value={size}>
                 {size}
               </option>
@@ -56,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div>
           <p className="text-sm text-gray-500">Color</p>
           <div className="flex gap-2 mt-1">
-            {product.colors.map((color) => (
+            {product.color.map((color) => (
               <button
                 key={color}
                 onClick={() => setSelectedColor(color)}

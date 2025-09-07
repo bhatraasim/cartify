@@ -1,20 +1,41 @@
 'use client'
 import Footer from "@/components/ui/footer";
 import ProductCard from "@/components/ui/prodecutCard";
+import { IProduct } from "@/model/Product";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [products, setproducts] = useState<IProduct[]>([])
+  const [loading, setLoading] = useState(true)
   const router = useRouter();
 
-    const product = {
-    name: "Under Armour StormFleece",
-    description: "Lightweight and warm hoodie for all seasons.",
-    price: 49.9,
-    image: "logo.png",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["#ff0000", "#ffcc00", "#000000"], // red, yellow, black
-  };
+
+
+  useEffect(() => {
+    const fetchProducts = async function () {
+      try {
+        const res = await fetch("/api/products")
+        const data = await res.json()
+
+        if(data.success){
+          setproducts(data.products)
+        }
+
+
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts()
+  }, [])
+  
+  
+
+
 
 
     const { data: session, status } = useSession({
@@ -35,10 +56,11 @@ export default function Home() {
     <div className=" ">
       
     <div className="display grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 my-15 mx-30">
-      <ProductCard product={product} />
-      <ProductCard product={product} />
-      <ProductCard product={product} />
-      <ProductCard product={product} />
+      
+
+      { products.map( (product) => (
+        <ProductCard key={String(product._id)} product={product}  />
+      ))}
     </div>
 
     <Footer />
