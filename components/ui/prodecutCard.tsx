@@ -1,0 +1,84 @@
+"use client";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+
+type Product = {
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  sizes: string[];
+  colors: string[]; // hex codes or color names
+};
+
+interface ProductCardProps {
+  product: Product;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0]);
+  const [selectedColor, setSelectedColor] = useState<string>(product.colors[0]);
+
+  return (
+    <div className="w-72 bg-white rounded-2xl shadow-lg p-4 flex flex-col">
+      {/* Product Image */}
+      <div className="flex justify-center mb-4">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-48 object-contain"
+        />
+      </div>
+
+      {/* Product Info */}
+      <h3 className="text-lg font-semibold">{product.name}</h3>
+      <p className="text-sm text-gray-500">{product.description}</p>
+
+      {/* Size & Color */}
+      <div className="flex items-center justify-between mt-3">
+        {/* Size */}
+        <div>
+          <p className="text-sm text-gray-500">Size</p>
+          <select
+            value={selectedSize}
+            onChange={(e) => setSelectedSize(e.target.value)}
+            className="border rounded-md px-2 py-1 text-sm"
+          >
+            {product.sizes.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Color */}
+        <div>
+          <p className="text-sm text-gray-500">Color</p>
+          <div className="flex gap-2 mt-1">
+            {product.colors.map((color) => (
+              <button
+                key={color}
+                onClick={() => setSelectedColor(color)}
+                className={`h-5 w-5 rounded-full border-2 ${
+                  selectedColor === color ? "border-gray-800" : "border-transparent"
+                }`}
+                style={{ backgroundColor: color }}
+              ></button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Price + Add to Cart */}
+      <div className="flex items-center justify-between mt-4">
+        <span className="text-xl font-semibold">${product.price}</span>
+        <Button className="flex gap-2">
+          🛒 Add to Cart
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;
