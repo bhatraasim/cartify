@@ -6,6 +6,7 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { useNotification } from "@/components/ui/Notification";
+import { Button } from "@/components/ui/button";
 
 function Footer() {
   return (
@@ -62,7 +63,7 @@ export default function Register() {
           </h1>
           <button
                     onClick={() => signIn("google")}
-                    className="btn w-full border border-base-300 text-base-content hover:bg-[#1C836D] hover:text-white mb-4 flex items-center justify-center gap-2"
+                    className="btn w-full border border-base-300 text-base-content hover:bg-yellow-300  mb-4 flex items-center justify-center gap-2 p-2.5 rounded-2xl"
                   >
                     <FcGoogle className="text-xl" />
                     Sign in with Google
@@ -74,7 +75,7 @@ export default function Register() {
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="input input-bordered w-full"
+              className="input input-bordered w-full p-2.5  rounded-2xl outline"
             />
             <input
               type="password"
@@ -82,7 +83,7 @@ export default function Register() {
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="input input-bordered w-full"
+              className="input input-bordered w-full p-2.5  rounded-2xl outline "
             />
             <input
               type="password"
@@ -90,19 +91,20 @@ export default function Register() {
               placeholder="Confirm Password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="input input-bordered w-full"
+              className="input input-bordered w-full p-2.5  rounded-2xl outline "
             />
-            <button
+            <Button
               type="submit"
-              className="btn bg-[#1C836D] text-white w-full"
+              variant="outline"
+              className="btn bg-yellow-400  w-full p-2.5  rounded-2xl outline font-semibold text-base-content hover:bg-yellow-300 "
             >
               Register
-            </button>
-            <p className="text-center text-sm text-base-content/70 mt-4">
+            </Button>
+            <p className="text-center text-sm text-base-content/70 mt-4 p-2.5  rounded-2xl outline ">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="link text-[#1C836D]"
+                className="link text-yellow-600 font-semibold"
               >
                 Login
               </Link>

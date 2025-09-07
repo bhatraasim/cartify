@@ -51,7 +51,7 @@ const Login = () => {
        
         <button
           onClick={() => signIn("google")}
-          className="btn w-full border border-base-300 text-base-content hover:bg-[#1C836D] hover:text-white mb-4 flex items-center justify-center gap-2"
+          className="btn w-full border border-base-300 text-base-content hover:bg-yellow-300  mb-4 flex items-center justify-center gap-2 p-2.5  rounded-2xl outline "
         >
           <FcGoogle className="text-xl" />
           Sign in with Google
@@ -63,7 +63,7 @@ const Login = () => {
             </label>
             <input
               type="email"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full p-2.5  rounded-2xl outline "
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -77,7 +77,7 @@ const Login = () => {
             </label>
             <input
               type="password"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full p-2.5  rounded-2xl outline "
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -87,7 +87,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="btn bg-[#1C836D] text-white w-full"
+            className="btn bg-yellow-400  w-full p-2.5  rounded-2xl outline font-semibold hover:bg-yellow-300 text-base-content"
           >
             Login
           </button>
@@ -97,7 +97,7 @@ const Login = () => {
           Don&apos;t have an account?{" "}
           <Link
             href="/register"
-            className="link text-[#1C836D] font-medium"
+            className="link text-yellow-600 font-medium"
           >
             Sign Up
           </Link>
