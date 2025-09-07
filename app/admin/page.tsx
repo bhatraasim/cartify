@@ -1,71 +1,7 @@
-// 'use client'
-// import AdminOnly from '@/components/ui/adminOnly'
-// import { useSession } from 'next-auth/react'
-
-// export default function AdminDashboard() {
-//   const { data: session } = useSession()
-
-//   return (
-//     <AdminOnly>
-//       <div className="min-h-screen bg-gray-50 p-6">
-//         <div className="max-w-7xl mx-auto">
-//           <div className="mb-8">
-//             <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-//             <p className="text-gray-600 mt-2">
-//               Welcome, {session?.user?.name}
-//             </p>
-//           </div>
-
-//           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-//             <div className="bg-white p-6 rounded-lg shadow">
-//               <h2 className="text-lg font-semibold text-gray-800">Total Users</h2>
-//               <p className="text-3xl font-bold text-blue-600 mt-2">1,234</p>
-//             </div>
-            
-//             <div className="bg-white p-6 rounded-lg shadow">
-//               <h2 className="text-lg font-semibold text-gray-800">Active Sessions</h2>
-//               <p className="text-3xl font-bold text-green-600 mt-2">89</p>
-//             </div>
-            
-//             <div className="bg-white p-6 rounded-lg shadow">
-//               <h2 className="text-lg font-semibold text-gray-800">Pending Tasks</h2>
-//               <p className="text-3xl font-bold text-yellow-600 mt-2">12</p>
-//             </div>
-//           </div>
-
-//           <div className="bg-white p-6 rounded-lg shadow">
-//             <h2 className="text-xl font-semibold mb-4">Admin Actions</h2>
-//             <div className="space-y-2">
-//               <button className="w-full text-left px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors">
-//                 Manage Users
-//               </button>
-//               <button className="w-full text-left px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors">
-//                 System Settings
-//               </button>
-//               <button className="w-full text-left px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors">
-//                 View Logs
-//               </button>
-//               <button className="w-full text-left px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors">
-//                 Export Data
-//               </button>
-//             </div>
-//           </div>
-
-//           <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-//             <p className="text-yellow-800">
-//               <strong>Note:</strong> This is client-side protection only. 
-//               For production apps, always add server-side protection for sensitive operations.
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-//     </AdminOnly>
-//   )
-// }
-
 
 
 import { Users, FileText, Activity, Settings, BarChart3, Plus } from 'lucide-react'
+import Link from 'next/link'
 
 export default function AdminPage() {
   return (
@@ -75,8 +11,11 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-semibold text-gray-900">Admin</h1>
-            <div className="flex items-center gap-4">
             
+            <div className="flex items-center gap-4  py-2 px-2.5 bg-yellow-400 rounded-2xl">
+              <Link href={"/admin/addProduct"} className="text-sm font-medium text-gray-700">
+                <span> Add Product </span>
+              </Link>
             </div>
           </div>
         </div>

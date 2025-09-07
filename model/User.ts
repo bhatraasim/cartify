@@ -1,4 +1,4 @@
-import mongoose, { DateUnit, model, models, Schema } from "mongoose";
+import mongoose, { model, models, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
 export interface IUser {
