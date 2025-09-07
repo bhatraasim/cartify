@@ -15,13 +15,9 @@ function Navbar() {
     router.push("/login")
   }
 
-  if (!session) {
-    return (null)
-  }
+  
 
-  if (!session.user.isAdmin) {
-    return null
-  }
+  
 
 
   return (
@@ -49,7 +45,8 @@ function Navbar() {
 
       <div className="flex items-center gap-4">
 
-        <div className="">
+       { session?.user?.isAdmin && (
+         <div className="">
           <Link 
                   href="/admin" 
                   className="bg-yellow-400 hover:bg-red-200 px-3  rounded transition-colors py-2"
@@ -57,6 +54,9 @@ function Navbar() {
                   Admin Panel
                 </Link>
         </div>
+       )}
+
+
         {session?.user?.image && (
           <Image
             src={session.user.image}
