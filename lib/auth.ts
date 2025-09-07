@@ -51,6 +51,7 @@ export const authOptions: NextAuthOptions = {
           await connectToDatabase();
           const existingUser = await User.findOne({ email: user.email });
 
+
           if (!existingUser) {
             const newUser = await User.create({
               name: user.name,
@@ -79,12 +80,25 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.sub = user.id;
         token.email = user.email;
+        
+        token.isAdmin = user.email === process.env.ADMIN_EMAIL;
+
+        // ADD THESE DEBUG LINES TEMPORARILY
+        console.log('User email:', user.email);
+        console.log('Admin email from env:', process.env.ADMIN_EMAIL);
+        console.log('Is admin:', token.isAdmin);
+      
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
+
+        session.user.isAdmin = token.isAdmin || false;
+
+        // ADD THIS DEBUG LINE TEMPORARILY
+    console.log('Session isAdmin:', session.user.isAdmin);
       }
       return session;
     },

@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Bell,  Home, ShoppingBag } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -14,9 +15,17 @@ function Navbar() {
     router.push("/login")
   }
 
+  if (!session) {
+    return (null)
+  }
+
+  if (!session.user.isAdmin) {
+    return null
+  }
 
 
   return (
+    
     <div className="flex items-center justify-between px-6 shadow-md bg-white rounded-lg sticky top-0 z-50">
       {/* Logo */}
       <Button asChild variant="outline" className="flex items-center gap-2 py-5 my-2">
@@ -35,8 +44,28 @@ function Navbar() {
         <Button  variant="outline" className="bg-yellow-400" >Search</Button>
       </div>
 
+
       {/* User Profile */}
+
       <div className="flex items-center gap-4">
+
+        <div className="">
+          <Link 
+                  href="/admin" 
+                  className="bg-yellow-400 hover:bg-red-200 px-3  rounded transition-colors py-2"
+                >
+                  Admin Panel
+                </Link>
+        </div>
+        {session?.user?.image && (
+          <Image
+            src={session.user.image}
+            alt="Profile"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+        )}
         <Home />
         <Bell />
         <ShoppingBag />

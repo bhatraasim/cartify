@@ -40,9 +40,9 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-base-200 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-base-100/70 backdrop-blur-lg border border-base-300 p-8 rounded-2xl shadow-2xl">
-        <h1 className="text-3xl font-light text-center text-base-content mb-6">
+        <span className="text-3xl font-light text-center text-base-content mb-6">
           Welcome Back
-        </h1>
+        </span>
 
         {error && (
           <p className="text-error text-center text-sm mb-4">{error}</p>
