@@ -83,10 +83,6 @@ export const authOptions: NextAuthOptions = {
         
         token.isAdmin = user.email === process.env.ADMIN_EMAIL;
 
-        // ADD THESE DEBUG LINES TEMPORARILY
-        console.log('User email:', user.email);
-        console.log('Admin email from env:', process.env.ADMIN_EMAIL);
-        console.log('Is admin:', token.isAdmin);
       
       }
       return token;
@@ -97,8 +93,7 @@ export const authOptions: NextAuthOptions = {
 
         session.user.isAdmin = token.isAdmin || false;
 
-        // ADD THIS DEBUG LINE TEMPORARILY
-    console.log('Session isAdmin:', session.user.isAdmin);
+       
       }
       return session;
     },

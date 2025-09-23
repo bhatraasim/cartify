@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import Search from "./Search";
 
 function Navbar() {
   const { data: session , status } = useSession();
@@ -31,14 +32,7 @@ function Navbar() {
       </Button>
 
       {/* Search Bar */}
-      <div className="flex items-center gap-2 w-full max-w-md">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="px-3 py-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-full"
-        />
-        <Button  variant="outline" className="bg-yellow-400" >Search</Button>
-      </div>
+      <Search />
 
 
       {/* User Profile */}

@@ -2,20 +2,41 @@ import { connectToDatabase } from "@/lib/db";
 import Product from "@/model/Product";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:NextRequest){
-   try {
-     await connectToDatabase()
 
-    const products = await Product.find().sort({created : -1 })
-    return NextResponse.json({success : true , products})
+export async function POST(req: NextRequest) {
+  try {
+    await connectToDatabase();
 
-   } catch (error:any) {
+    
+    // Parse JSON body to get search query
+    const { query = "" } = await req.json();
+    
+    let products;
 
-    console.error(" Error fetching products:", error);
+    
+        if (query && query.trim() !== "") {
+      
+      products = await Product.find({
+        $or: [
+          { title: { $regex: query, $options: "i" } },        
+          { desc: { $regex: query, $options: "i" } },      
+          { category: { $regex: query, $options: "i" } }   
+        ]
+      }).sort({ createdAt: -1 }).exec();
+      
+
+    } else {
+
+      products = await Product.find({}).sort({ createdAt: -1 }).exec();
+
+    }
+    
+    return NextResponse.json({ success: true, products });
+  } catch (error: any) {
+    console.error("Error fetching products:", error);
     return NextResponse.json(
       { success: false, error: error.message || "Failed to fetch products" },
       { status: 500 }
-    )
-   }
-
+    );
+  }
 }
