@@ -62,7 +62,9 @@ function Navbar() {
         )}
         <Home />
         <Bell />
-        <ShoppingBag />
+        <Link href="/cart/shopingCart">
+          <ShoppingBag />
+        </Link>
         
         
         { session ? (

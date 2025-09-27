@@ -1,7 +1,7 @@
 'use client'
-import MenuBar from "@/components/menuBar";
+import MenuBar from "@/components/ui/menuBar";
 import Footer from "@/components/ui/footer";
-import ProductCard from "@/components/ui/prodecutCard";
+import ProductCard from "@/components/ui/productCard";
 import { IProduct } from "@/model/Product";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -63,7 +63,9 @@ export default function Home() {
       <div className="flex justify-center">
         <img src='/front.png' width='1000' />
       </div>
-
+      <div className="flex justify-center">
+        <MenuBar />
+      </div>
 
       <div className="display grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 my-15 mx-30">
 

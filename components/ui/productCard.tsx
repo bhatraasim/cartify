@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { IProduct } from "@/model/Product";
+import addToCart from "@/app/actions/cart";
 
 
 
@@ -13,6 +14,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const [selectedSize, setSelectedSize] = useState<string>(product.size[0]);
   const [selectedColor, setSelectedColor] = useState<string>(product.color[0]);
+  const [isPending, startTransition] = useTransition()
+
+    const handleAddToCart = () => {
+    startTransition(async () => {
+      if (!product._id) {
+        console.error('Product ID is missing');
+        return;
+      }
+      const result = await addToCart(product._id, 1)
+      if (result.success) {
+        // Show success toast
+        console.log('Added to cart successfully')
+      } else {
+        console.error(result.message)
+      }
+    })
+  }
 
   return (
     <div className="w-72 bg-white rounded-2xl shadow-lg p-4 flex flex-col">
@@ -68,7 +86,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Price + Add to Cart */}
       <div className="flex items-center justify-between mt-4">
         <span className="text-xl font-semibold">${product.price}</span>
-        <Button className="flex gap-2">
+        <Button className="flex gap-2" onClick={handleAddToCart} >
           🛒 Add to Cart
         </Button>
       </div>
