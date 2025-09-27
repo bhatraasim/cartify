@@ -17,7 +17,7 @@ export interface IAddress {
 
 const AddressSchema = new Schema<IAddress>({
 
-  userId : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required: true },
+  userId : { type : mongoose.Schema.Types.ObjectId, ref : 'User', required: true  , index: true } ,
 
   addressLine1: {
     type: String,
@@ -77,5 +77,5 @@ const AddressSchema = new Schema<IAddress>({
 
 
 
-const Adress = mongoose.models?.Adress || mongoose.model('Adress', AddressSchema);
-export default Adress;
+const Address = mongoose.models?.Address || mongoose.model('Address', AddressSchema);
+export default Address;
