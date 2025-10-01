@@ -4,7 +4,8 @@ import React, { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
-interface CartDisplayProps {
+export interface CartDisplayProps {
+  [x: string]: any;
   initialCartData: {
     items: Array<{
       _id?: string;
@@ -21,7 +22,7 @@ interface CartDisplayProps {
   };
 }
 
-export default function CartDisplay({ initialCartData }: CartDisplayProps) {
+export default function CartCard({ initialCartData }: CartDisplayProps) {
   const [cartItems, setCartItems] = useState(initialCartData.items);
   const [isPending, startTransition] = useTransition();
 

@@ -1,5 +1,15 @@
+'use client';
+
+
+
 // import { getCartData } from '@/app/actions/cart';
 // import CartCard  from '@/components/ui/CartCard';
+
+import CartCard from "@/components/ui/CartCard";
+import { useEffect, useState } from "react";
+
+
+
 
 // const dynamic = "force-dynamic";
 
@@ -35,31 +45,68 @@
 //       </div>
 //     );
 //   } catch (error) {
-//     return <div>Error loading cart: {String(error)}</div>;
-//   }
-// }
 
 
-import { getCartData } from "@/app/actions/cart";
-import CartCard from "@/components/ui/CartCard";
 
-export const dynamic = "force-dynamic"; // 👈 keep if you want fresh fetch every request
 
-export default async function CartPage() {
-  const result = await getCartData();
+// Define the correct cart type expected by CartCard
+type CartType = {
+  items: {
+    _id?: string;
+    productId: {
+      _id: string;
+      title: string;
+      price: number;
+      url: string;
+      desc: string;
+    };
+    quantity: number;
+  }[];
+  userId: string;
+};
 
-  if (!result.success) {
+
+
+
+export default function CartPage() {
+  const [cartData, setCartData] = useState<CartType | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchCart() {
+      try {
+        const res = await fetch('/api/getCartItems');
+        const result = await res.json();
+        if (!result.success) {
+          setError(result.message);
+        } else {
+          setCartData(result.cart);
+        }
+      } catch (err) {
+        setError('Error loading cart data');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCart();
+  }, []);
+
+  if (loading) {
+    return <div className="container mx-auto px-4 py-8">Loading cart...</div>;
+  }
+
+  if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">Your Shopping Cart</h1>
-        <p className="text-red-500">{result.message}</p>
+        <p className="text-red-500">{error}</p>
       </div>
     );
   }
 
-  const cart = result.cart;
-
-  if (!cart || cart.items.length === 0) {
+  if (!cartData || cartData.items.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
         <h1 className="text-3xl font-bold mb-6">Your Shopping Cart</h1>
@@ -71,11 +118,8 @@ export default async function CartPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Your Shopping Cart</h1>
-      <p className="mb-4">Found {cart.items.length} items</p>
-      <CartCard initialCartData={JSON.parse(JSON.stringify(result.cart))} />
-
+      <p className="mb-4">Found {cartData.items.length} items</p>
+      <CartCard initialCartData={cartData} />
     </div>
   );
 }
-
-
