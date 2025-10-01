@@ -5,6 +5,10 @@ import Cart, { CartItem, CartType } from "@/model/Cart";
 import { Types } from "mongoose";
 import { getServerSession } from "next-auth";
 
+
+export const dynamic = 'force-dynamic';
+
+
 export default async function addToCart(
   productId: Types.ObjectId,
   quantity: number
