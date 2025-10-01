@@ -1,8 +1,7 @@
-
 import { getCartData } from '@/app/actions/cart';
 import CartCard  from '@/components/ui/CartCard';
 
-export const dynamic = "force-dynamic";
+const dynamic = "force-dynamic";
 
 export default async function CartPage() {
   
