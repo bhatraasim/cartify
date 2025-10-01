@@ -74,17 +74,13 @@ interface PopulatedCartType {
 
 export async function getCartData() {
   try {
-    try {
+    
       await connectToDatabase();
       console.log("Connected to MongoDB");
-    } catch (err) {
-      console.error("MongoDB connection error", err);
-    }
+    
     const session = await getServerSession(authOptions);
     console.log("Session in production:", session);
-    if (!session?.user?.id) {
-      return { success: false, message: "User not authenticated", cart: null };
-    }
+    
 
     if (!session?.user?.id) {
       return {
