@@ -2,8 +2,8 @@
 import React, { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { IProduct } from "@/model/Product";
-import addToCart from "@/app/actions/cart";
 import { useNotification } from "./Notification";
+import { addToCart } from "@/app/actions/cart";
 
 
 
