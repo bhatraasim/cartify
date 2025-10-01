@@ -1,6 +1,6 @@
 
 import { getCartData } from '@/app/actions/cart';
-import CartCard from '@/components/ui/CartCard';
+import CartCard  from '@/components/ui/CartCard';
 
 export const dynamic = "force-dynamic";
 
