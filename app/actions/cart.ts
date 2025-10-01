@@ -2,7 +2,6 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Cart, { CartItem, CartType } from "@/model/Cart";
-import Product from "@/model/Product";
 import { Types } from "mongoose";
 import { getServerSession } from "next-auth";
 
