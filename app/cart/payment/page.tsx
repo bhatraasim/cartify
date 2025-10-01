@@ -227,7 +227,7 @@ export default function FakePayPalPaymentPage() {
 
               <div className="mt-4 text-center">
                 <p className="text-xs text-gray-500">
-                  By continuing, you agree to PayPal's terms and privacy policy
+                  By continuing, you agree to PayPal&apos;s terms and privacy policy
                 </p>
               </div>
             </div>

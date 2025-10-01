@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
+import AddressForm from './AdressForm';
 
 interface AddressDisplayProps {
   initialAddresses: Array<{
@@ -18,6 +19,7 @@ interface AddressDisplayProps {
 export default function AddressDisplay({ initialAddresses }: AddressDisplayProps) {
   const [addresses, setAddresses] = useState(initialAddresses);
   const [isPending, startTransition] = useTransition();
+  const [formOpen, setFormOpen] = useState<boolean>(false)
 
   const handleEdit = (addressId: string) => {
     console.log('Edit address:', addressId);
@@ -47,24 +49,23 @@ export default function AddressDisplay({ initialAddresses }: AddressDisplayProps
             </svg>
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">No Addresses Found</h3>
-          <p className="text-gray-500 mb-6">Add your first shipping address to get started with your orders.</p>
-          <Button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold">
-            Add Your First Address
-          </Button>
+          
         </div>
       </div>
     );
   }
 
-  return (
-    <div className="space-y-6">
+  
+    if(!formOpen){
+      return ( 
+        <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Saved Addresses</h2>
           <p className="text-gray-600">Manage your shipping addresses</p>
         </div>
-        <Button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold">
+        <Button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold" onClick={()=> setFormOpen( prev => !prev)}>
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
@@ -182,5 +183,13 @@ export default function AddressDisplay({ initialAddresses }: AddressDisplayProps
         ))}
       </div>
     </div>
-  );
+      )
+    }
+    else{
+      return(
+        <AddressForm />
+      )
+    }
+    
+  
 }

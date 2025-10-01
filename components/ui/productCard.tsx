@@ -3,6 +3,7 @@ import React, { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { IProduct } from "@/model/Product";
 import addToCart from "@/app/actions/cart";
+import { useNotification } from "./Notification";
 
 
 
@@ -15,6 +16,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedSize, setSelectedSize] = useState<string>(product.size[0]);
   const [selectedColor, setSelectedColor] = useState<string>(product.color[0]);
   const [isPending, startTransition] = useTransition()
+  const { showNotification } = useNotification();
 
     const handleAddToCart = () => {
     startTransition(async () => {
@@ -25,9 +27,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       const result = await addToCart(product._id, 1)
       if (result.success) {
         // Show success toast
-        console.log('Added to cart successfully')
+        showNotification('Added to cart successfully' , 'success')
       } else {
-        console.error(result.message)
+        showNotification(`Failed to add to cart: ${result.message}`, 'error');
       }
     })
   }

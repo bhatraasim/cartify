@@ -32,10 +32,15 @@ export async function POST(req: NextRequest) {
     }
     
     return NextResponse.json({ success: true, products });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching products:", error);
+    const message =
+    error instanceof Error
+      ? error.message
+      : "Failed to fetch products";
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to fetch products" },
+      
+      { success: false, error: message || "Failed to fetch products" },
       { status: 500 }
     );
   }

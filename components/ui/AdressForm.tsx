@@ -55,6 +55,9 @@ export default function AddressForm({
     if (!formData.country.trim()) {
       newErrors.country = 'Country is required';
     }
+    if (!formData.phone?.trim()) {
+      newErrors.phone = 'phone number is required';
+    }
     
     // Phone validation - make it required if you want
     if (formData.phone && !/^[\+]?[0-9\s\-\(\)]{10,15}$/.test(formData.phone)) {
@@ -106,6 +109,7 @@ export default function AddressForm({
     });
   };
 
+
   const handleInputChange = (field: keyof AddressFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     
@@ -118,7 +122,7 @@ export default function AddressForm({
   return (
     <div className="max-w-2xl mx-auto">
       {/* Header */}
-      <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-t-2xl p-6 text-white">
+      <div className="bg-yellow-400  rounded-t-2xl p-6 text-white">
         <div className="flex items-center space-x-3">
           <div className="p-2 bg-white/20 rounded-lg">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,6 +144,7 @@ export default function AddressForm({
       {/* Form */}
       <form onSubmit={handleSubmit} className="bg-white rounded-b-2xl shadow-xl border-t border-yellow-100">
         <div className="p-6 space-y-6">
+
           {/* Address Line 1 */}
           <div className="space-y-2">
             <label className="text-sm font-semibold text-gray-700 flex items-center">
@@ -161,6 +166,7 @@ export default function AddressForm({
               </p>
             )}
           </div>
+
 
           {/* Address Line 2 */}
           <div className="space-y-2">

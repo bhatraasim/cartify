@@ -6,6 +6,8 @@ import { IProduct } from "@/model/Product";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { NotificationProvider } from "@/components/ui/Notification";
+import Image from "next/image";
 
 export default function Home() {
   const [products, setProducts] = useState<IProduct[]>([])
@@ -36,10 +38,6 @@ export default function Home() {
 }, [search]) // Add 'search' to dependency array
 
 
-
-
-
-
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
@@ -48,6 +46,8 @@ export default function Home() {
   })
 
   if (status === "loading") return <p>Loading...</p>
+  if (loading) return <p>Loading products...</p>;
+
 
   if (!session) {
     router.push("/login")
@@ -57,11 +57,12 @@ export default function Home() {
 
 
 
+
   return (
 
     <div className=" ">
       <div className="flex justify-center">
-        <img src='/front.png' width='1000' />
+        <img loading="lazy" src='/front.png' width={1000} height={500} alt='main picture' />
       </div>
       <div className="flex justify-center">
         <MenuBar />
@@ -69,9 +70,11 @@ export default function Home() {
 
       <div className="display grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 my-15 mx-30">
 
-        
+       
         {products.map((product) => (
-          <ProductCard key={String(product._id)} product={product} />
+          <NotificationProvider  key={String(product._id)}>
+            <ProductCard key={String(product._id)} product={product} />
+          </NotificationProvider>
         ))}
       </div>
 

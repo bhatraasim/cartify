@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { useState, ChangeEvent, FormEvent } from 'react';
 
 export default function AddProduct() {
@@ -147,7 +148,7 @@ export default function AddProduct() {
             <label htmlFor="image-upload" className="cursor-pointer">
               {preview ? (
                 <div className="relative">
-                  <img src={preview} alt="Preview" className="max-h-64 mx-auto rounded-lg shadow-md" />
+                  <Image src={preview} alt="Preview" className="max-h-64 mx-auto rounded-lg shadow-md" />
                   <div className="mt-4 text-sm text-gray-600">Click to change image</div>
                 </div>
               ) : (
