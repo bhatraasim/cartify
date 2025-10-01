@@ -165,7 +165,7 @@ export async function getCartData() {
     console.error("Cart fetch error:", error);
     return {
       success: false,
-      message: "Error fetching cart data",
+      message: "Error fetching cart data server",
       cart: null,
     };
   }

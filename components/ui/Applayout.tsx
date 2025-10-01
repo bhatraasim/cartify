@@ -10,9 +10,8 @@ export default function CartifySkeleton() {
     <div className="min-h-screen bg-[#FCFCFE]">
       
       {/* Banner */}
-      <div className="relative flex justify-center items-center mt-8 mb-8 h-60">
-        <div className="w-[80%] h-full bg-gray-200 rounded-xl animate-pulse" />
-        <div className="absolute left-1/4 top-1/4 w-44 h-44 bg-gray-300 rounded-xl animate-pulse" />
+      <div className="relative flex justify-center items-center mt-8 mb-8 h-60 animate-pulse">
+        
       </div>
       {/* Categories */}
       <div className="flex gap-6 justify-center mb-8">

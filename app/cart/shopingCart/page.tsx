@@ -84,7 +84,7 @@ export default function CartPage() {
           setCartData(result.cart);
         }
       } catch (err) {
-        setError('Error loading cart data');
+        setError('Error loading cart data ui');
       } finally {
         setLoading(false);
       }
