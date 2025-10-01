@@ -1,7 +1,8 @@
 import { getCartData } from '@/app/actions/cart';
 import CartCard from '@/components/ui/CartCard';
 
-// app/cart/page.tsx
+export const dynamic = "force-dynamic";
+
 export default async function CartPage() {
   
   try {

@@ -4,6 +4,8 @@ import AddressDisplay from '@/components/ui/AdressDisplay';
 import AdressForm from '@/components/ui/AdressForm';
 import Link from 'next/link';
 
+export const dynamic = "force-dynamic";
+
 export default async function ShippingAddressPage() {
   const result = await getAddress();
 
