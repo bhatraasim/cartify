@@ -2,8 +2,10 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Cart, { CartItem, CartType } from "@/model/Cart";
+import Product from "@/model/Product";
 import { Types } from "mongoose";
 import { getServerSession } from "next-auth";
+
 
 
 
@@ -72,17 +74,68 @@ interface PopulatedCartType {
   updatedAt?: Date;
 }
 
-export async function getCartData() {
-  try {
+// export async function getCartData() {
+//   try {
     
-    console.log("Starting getCartData function...");
-    await connectToDatabase();
-    console.log("Connected to MongoDB successfully.");
+//     console.log("Starting getCartData function...");
+//     await connectToDatabase();
+//     console.log("Connected to MongoDB successfully.");
 
     
-    const session = await getServerSession(authOptions);
-    console.log("Session in production:", session);
+//     const session = await getServerSession(authOptions);
+//     console.log("Session in production:", session);
     
+
+//     if (!session?.user?.id) {
+//       return {
+//         success: false,
+//         message: "User not authenticated",
+//         cart: null,
+//       };
+//     }
+
+
+//     // Fetch raw cart without populate
+//     const rawCart = await Cart.findOne({ userId: session.user.id }).lean();
+//     console.log('Raw cart before populate:', rawCart);
+
+//     // Cast to PopulatedCartType after populate and lean
+//     const cart = await Cart.findOne({ userId: session.user.id })
+//   .populate("items.productId", "title price url desc");
+
+
+//     console.log("Fetched cart with pipulate :", cart);
+
+//     return {
+//       success: true,
+//       message: "Cart fetched successfully",
+//       cart: cart || {
+//         items: [],
+//         userId: session.user.id,
+//         _id: "",
+//         createdAt: new Date(),
+//         updatedAt: new Date(),
+//       },
+//     };
+//   } catch (error: unknown) {
+//     console.log(error);
+//     return {
+//       success: false,
+//       message: "Error fetching cart data",
+//       cart: null,
+//     };
+//   }
+// }
+
+
+export async function getCartData() {
+  try {
+    console.log("Starting getCartData...");
+    await connectToDatabase();
+    console.log("Connected to MongoDB");
+
+    const session = await getServerSession(authOptions);
+    console.log("Session:", session);
 
     if (!session?.user?.id) {
       return {
@@ -92,17 +145,11 @@ export async function getCartData() {
       };
     }
 
+    const cart = await Cart.findOne({ userId: session.user.id })
+      .populate("items.productId", "title price url desc");
 
-    // Fetch raw cart without populate
-    const rawCart = await Cart.findOne({ userId: session.user.id }).lean();
-    console.log('Raw cart before populate:', rawCart);
 
-    // Cast to PopulatedCartType after populate and lean
-    const cart = (await Cart.findOne({ userId: session.user.id })
-      .populate("items.productId", "title price url desc")
-      .lean()) as PopulatedCartType | null;
-
-    console.log("Fetched cart with pipulate :", cart);
+    console.log("Fetched cart:", cart);
 
     return {
       success: true,
@@ -115,8 +162,8 @@ export async function getCartData() {
         updatedAt: new Date(),
       },
     };
-  } catch (error: unknown) {
-    console.log(error);
+  } catch (error) {
+    console.error("Cart fetch error:", error);
     return {
       success: false,
       message: "Error fetching cart data",
