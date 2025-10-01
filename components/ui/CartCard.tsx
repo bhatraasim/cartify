@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export interface CartDisplayProps {
-  [x: string]: any;
+  [x: string]: unknown;
   initialCartData: {
     items: Array<{
       _id?: string;

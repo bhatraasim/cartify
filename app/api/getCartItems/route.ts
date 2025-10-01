@@ -55,7 +55,7 @@ export async function GET(req: NextRequest) {
         updatedAt: new Date(),
       },
     });
-  } catch (error) {
+  } catch (error:unknown) {
     console.error('Error fetching cart:', error);
     return NextResponse.json({
       success: false,
