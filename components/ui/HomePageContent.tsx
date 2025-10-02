@@ -1,4 +1,3 @@
-// app/components/HomePageContent.tsx
 'use client'
 import MenuBar from "@/components/ui/menuBar";
 import Footer from "@/components/ui/footer";
@@ -15,27 +14,26 @@ export default function HomePageContent() {
   const [loading, setLoading] = useState(true)
   const router = useRouter();
   const searchParams = useSearchParams();
-  const search = searchParams.get("search") ;
+  const search = searchParams.get("search");
 
- useEffect(() => {
-  const fetchProducts = async function () {
-    try {
-       const res = await fetch("/api/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: search }), // send the search string here
-      });
-      const data = await res.json();
-      if (data.success) setProducts(data.products);
-     } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    const fetchProducts = async function () {
+      try {
+        const res = await fetch("/api/products", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: search }),
+        });
+        const data = await res.json();
+        if (data.success) setProducts(data.products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
-  fetchProducts()
-}, [search]) // Add 'search' to dependency array
-
+    fetchProducts()
+  }, [search])
 
   const { data: session, status } = useSession({
     required: true,
@@ -46,35 +44,34 @@ export default function HomePageContent() {
 
   if (status === "loading") return <AppLayout />
   if (loading) return <AppLayout />
-
-
   if (!session) {
     router.push("/login")
     return null
   }
 
-
-
-
-
   return (
-
-    <div className=" ">
-      <div className="flex justify-center">
-        <img loading="lazy" src='/front.png' width={1000} height={500} alt='main picture' />
+    <div className="w-full min-h-screen flex flex-col">
+      <div className="flex justify-center items-center mt-4 px-2">
+        <img
+          loading="lazy"
+          src='/front.png'
+          alt='hero'
+          className="w-full max-w-5xl h-auto rounded-lg object-cover shadow-md"
+        />
       </div>
-      <div className="flex justify-center">
+
+      <div className="flex justify-center mt-4 px-2">
         <MenuBar />
       </div>
 
-      <div className="display grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 my-15 mx-30">
-
-       
-        {products.map((product) => (
-          <NotificationProvider  key={String(product._id)}>
-            <ProductCard key={String(product._id)} product={product} />
-          </NotificationProvider>
-        ))}
+      <div className="flex-1 px-2 sm:px-4 md:px-8 max-w-7xl mx-auto w-full py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <NotificationProvider key={String(product._id)}>
+              <ProductCard key={String(product._id)} product={product} />
+            </NotificationProvider>
+          ))}
+        </div>
       </div>
 
       <Footer />
