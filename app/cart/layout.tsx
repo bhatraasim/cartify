@@ -1,5 +1,5 @@
 import CartSliderBar from "@/components/ui/CartSliderBar";
-
+import { Analytics } from "@vercel/analytics/next"
 
 
 export default function Cart({ children }: { children: React.ReactNode }) {
@@ -15,6 +15,7 @@ export default function Cart({ children }: { children: React.ReactNode }) {
       </div>
 
       <CartSliderBar />
+      <Analytics />
       {children}
     </section>
   )
