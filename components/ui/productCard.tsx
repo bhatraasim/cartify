@@ -25,7 +25,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       if (result.success) {
         showNotification("Added to cart successfully", "success");
       } else {
-        showNotification(`Failed to add to cart: ${result.message}`, "error");
+        showNotification(`Failed to add to cart: {result.message}`, "error");
       }
     });
   };
@@ -71,11 +71,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <button
                 key={color}
                 onClick={() => setSelectedColor(color)}
-                className={`h-6 w-6 rounded-full border-2 ${
+                className={`h-6 w-6 rounded-full border-2 {
                   selectedColor === color ? "border-gray-800" : "border-transparent"
                 }`}
                 style={{ backgroundColor: color }}
-                aria-label={`Select color ${color}`}
+                aria-label={`Select color {color}`}
               ></button>
             ))}
           </div>
@@ -84,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
       {/* Price + Add to Cart */}
       <div className="flex flex-col sm:flex-row items-center justify-between mt-4 gap-4">
-        <span className="text-xl font-semibold">${product.price}</span>
+        <span className="text-xl font-semibold">{product.price}</span>
         <Button className="flex gap-2 justify-center w-full sm:w-auto" onClick={handleAddToCart}>
           🛒 Add to Cart
         </Button>

@@ -40,7 +40,7 @@ export default function CartCard({ initialCartData }: CartDisplayProps) {
     }
 
     startTransition(async () => {
-      console.log(`Update quantity for ${productId} to ${newQuantity}`);
+      console.log(`Update quantity for {productId} to {newQuantity}`);
       // TODO: Add server action for updating cart in database
     });
   };
@@ -66,7 +66,7 @@ export default function CartCard({ initialCartData }: CartDisplayProps) {
               <div className="flex-grow">
                 <h3 className="text-lg font-bold text-gray-900">{item.productId.title}</h3>
                 <p className="text-gray-500 text-sm mt-1">{item.productId.desc}</p>
-                <p className="text-xl font-bold text-gray-900 mt-2">${item.productId.price}</p>
+                <p className="text-xl font-bold text-gray-900 mt-2">{item.productId.price}</p>
               </div>
             </div>
             
@@ -107,7 +107,7 @@ export default function CartCard({ initialCartData }: CartDisplayProps) {
       <div className="bg-white p-6 rounded-xl shadow-md h-full">
         <div className="flex justify-between items-center text-xl font-semibold border-b pb-4 mb-4">
           <span>Subtotal:</span>
-          <span>${total.toFixed(2)}</span>
+          <span>{total.toFixed(2)}</span>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-500 text-sm">Shipping and taxes calculated at checkout.</p>

@@ -60,7 +60,7 @@ export default function AddressForm({
     }
     
     // Phone validation - make it required if you want
-    if (formData.phone && !/^[\+]?[0-9\s\-\(\)]{10,15}$/.test(formData.phone)) {
+    if (formData.phone && !/^[\+]?[0-9\s\-\(\)]{10,15}/.test(formData.phone)) {
       newErrors.phone = 'Invalid phone number format';
     }
 
@@ -156,7 +156,7 @@ export default function AddressForm({
               value={formData.addressLine1}
               onChange={(e) => handleInputChange('addressLine1', e.target.value)}
               placeholder="123 Main Street"
-              className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none ${
+              className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none {
                 errors.addressLine1 ? 'border-red-300' : 'border-gray-200'
               }`}
             />
@@ -195,7 +195,7 @@ export default function AddressForm({
                 value={formData.city}
                 onChange={(e) => handleInputChange('city', e.target.value)}
                 placeholder="Srinagar"
-                className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none ${
+                className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none {
                   errors.city ? 'border-red-300' : 'border-gray-200'
                 }`}
               />
@@ -212,7 +212,7 @@ export default function AddressForm({
                 value={formData.state}
                 onChange={(e) => handleInputChange('state', e.target.value)}
                 placeholder="Jammu & Kashmir"
-                className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none ${
+                className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none {
                   errors.state ? 'border-red-300' : 'border-gray-200'
                 }`}
               />
@@ -232,7 +232,7 @@ export default function AddressForm({
                 value={formData.postalCode}
                 onChange={(e) => handleInputChange('postalCode', e.target.value)}
                 placeholder="190001"
-                className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none ${
+                className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none {
                   errors.postalCode ? 'border-red-300' : 'border-gray-200'
                 }`}
               />
@@ -247,7 +247,7 @@ export default function AddressForm({
               <select
                 value={formData.country}
                 onChange={(e) => handleInputChange('country', e.target.value)}
-                className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none ${
+                className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none {
                   errors.country ? 'border-red-300' : 'border-gray-200'
                 }`}
               >
@@ -272,7 +272,7 @@ export default function AddressForm({
               value={formData.phone || ''}
               onChange={(e) => handleInputChange('phone', e.target.value)}
               placeholder="+91 9876543210"
-              className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none ${
+              className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 bg-gray-50 focus:bg-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none {
                 errors.phone ? 'border-red-300' : 'border-gray-200'
               }`}
             />

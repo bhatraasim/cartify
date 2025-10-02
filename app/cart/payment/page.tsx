@@ -44,7 +44,7 @@ export default function FakePayPalPaymentPage() {
                 <div className="space-y-4">
                   {/* PayPal Option */}
                   <div 
-                    className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${
+                    className={`border-2 rounded-xl p-4 cursor-pointer transition-all {
                       paymentMethod === 'paypal' ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200 hover:border-gray-300'
                     }`}
                     onClick={() => setPaymentMethod('paypal')}
@@ -69,7 +69,7 @@ export default function FakePayPalPaymentPage() {
 
                   {/* Credit Card Option */}
                   <div 
-                    className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${
+                    className={`border-2 rounded-xl p-4 cursor-pointer transition-all {
                       paymentMethod === 'card' ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200 hover:border-gray-300'
                     }`}
                     onClick={() => setPaymentMethod('card')}
@@ -191,20 +191,20 @@ export default function FakePayPalPaymentPage() {
               <div className="border-t border-gray-200 mt-6 pt-6 space-y-3">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>$99.99</span>
+                  <span>99.99</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
-                  <span>$9.99</span>
+                  <span>9.99</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Tax</span>
-                  <span>$8.00</span>
+                  <span>8.00</span>
                 </div>
                 <div className="border-t border-gray-200 pt-3">
                   <div className="flex justify-between text-xl font-bold text-gray-900">
                     <span>Total</span>
-                    <span>$117.98</span>
+                    <span>117.98</span>
                   </div>
                 </div>
               </div>
@@ -221,7 +221,7 @@ export default function FakePayPalPaymentPage() {
                     Processing...
                   </div>
                 ) : (
-                  <>Pay $117.98</>
+                  <>Pay 117.98</>
                 )}
               </Button>
 
