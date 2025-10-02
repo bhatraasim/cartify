@@ -15,8 +15,9 @@ export default function Cart({ children }: { children: React.ReactNode }) {
       </div>
 
       <CartSliderBar />
-      <Analytics />
+      
       {children}
+      <Analytics />
     </section>
   )
 }

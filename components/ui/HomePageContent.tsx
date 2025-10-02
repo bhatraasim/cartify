@@ -1,13 +1,15 @@
 'use client'
 import MenuBar from "@/components/ui/menuBar";
 import Footer from "@/components/ui/footer";
-import ProductCard from "@/components/ui/productCard";
+import ProductCard from "@/components/ui/productsDisplay";
 import { IProduct } from "@/model/Product";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NotificationProvider } from "@/components/ui/Notification";
 import AppLayout from "./Applayout";
+import Home from "@/app/page";
+import HomePagePagination from "./HomePagePagination";
 
 export default function HomePageContent() {
   const [products, setProducts] = useState<IProduct[]>([])
@@ -65,13 +67,7 @@ export default function HomePageContent() {
       </div>
 
       <div className="flex-1 px-2 sm:px-4 md:px-8 max-w-7xl mx-auto w-full py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <NotificationProvider key={String(product._id)}>
-              <ProductCard key={String(product._id)} product={product} />
-            </NotificationProvider>
-          ))}
-        </div>
+        <HomePagePagination products={products} />
       </div>
 
       <Footer />
