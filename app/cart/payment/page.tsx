@@ -1,11 +1,14 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { getCartPrice } from '@/app/actions/cart';
+import { set } from 'mongoose';
 
 export default function FakePayPalPaymentPage() {
   const [paymentMethod, setPaymentMethod] = useState('paypal');
   const [loading, setLoading] = useState(false);
+  const [ price , setPrice ] = useState(0)
 
   const handlePayment = () => {
     setLoading(true);
@@ -15,6 +18,23 @@ export default function FakePayPalPaymentPage() {
       alert('This is a demo - no actual payment processed!');
     }, 2000);
   };
+
+  
+  useEffect(() => {
+    const getPrice = async () => {
+    const result = await getCartPrice()
+
+    setPrice(result.totalPrice || 0)
+
+  }
+
+    getPrice()
+  }, [])
+  
+
+
+
+
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -189,22 +209,11 @@ export default function FakePayPalPaymentPage() {
               </div>
 
               <div className="border-t border-gray-200 mt-6 pt-6 space-y-3">
-                <div className="flex justify-between text-gray-600">
-                  <span>Subtotal</span>
-                  <span>99.99</span>
-                </div>
-                <div className="flex justify-between text-gray-600">
-                  <span>Shipping</span>
-                  <span>9.99</span>
-                </div>
-                <div className="flex justify-between text-gray-600">
-                  <span>Tax</span>
-                  <span>8.00</span>
-                </div>
+               
                 <div className="border-t border-gray-200 pt-3">
                   <div className="flex justify-between text-xl font-bold text-gray-900">
-                    <span>Total</span>
-                    <span>117.98</span>
+                    <span>Total ... </span>
+                    <span>{price}</span>
                   </div>
                 </div>
               </div>
@@ -221,7 +230,7 @@ export default function FakePayPalPaymentPage() {
                     Processing...
                   </div>
                 ) : (
-                  <>Pay 117.98</>
+                  <>Pay {price}</>
                 )}
               </Button>
 

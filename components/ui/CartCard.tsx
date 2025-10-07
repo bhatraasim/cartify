@@ -3,14 +3,16 @@
 import React, { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Types } from 'mongoose';
+import { deleteItemFromCart } from '@/app/actions/cart';
 
 export interface CartDisplayProps {
   [x: string]: unknown;
   initialCartData: {
     items: Array<{
-      _id?: string;
+      _id?: Types.ObjectId;
       productId: {
-        _id: string;
+        _id: Types.ObjectId;
         title: string;
         price: number;
         url: string;
@@ -26,7 +28,7 @@ export default function CartCard({ initialCartData }: CartDisplayProps) {
   const [cartItems, setCartItems] = useState(initialCartData.items);
   const [isPending, startTransition] = useTransition();
 
-  const updateQuantity = (productId: string, newQuantity: number) => {
+  const updateQuantity = (productId: Types.ObjectId, newQuantity: number) => {
     if (newQuantity <= 0) {
       setCartItems(cartItems.filter(item => 
         item.productId._id !== productId
@@ -39,11 +41,24 @@ export default function CartCard({ initialCartData }: CartDisplayProps) {
       ));
     }
 
+    
+
     startTransition(async () => {
       console.log(`Update quantity for {productId} to {newQuantity}`);
       // TODO: Add server action for updating cart in database
     });
   };
+
+  const removeItem = async (productId: Types.ObjectId) => {
+      const result = await deleteItemFromCart(productId);
+      if (result.success) {
+        setCartItems(cartItems.filter(item => 
+          item.productId._id !== productId
+        ));
+      } else {
+        console.error(result.message);
+      }
+    }
 
   const total = cartItems.reduce((sum, item) => 
     sum + (item.productId.price * item.quantity), 0
@@ -54,7 +69,7 @@ export default function CartCard({ initialCartData }: CartDisplayProps) {
       <div className="space-y-6">
         {cartItems.map((item, index) => (
           <div 
-            key={item._id || index} 
+            key={item._id?.toString() || index} 
             className="flex items-center justify-between p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
           >
             <div className="flex items-center space-x-6 flex-grow">
@@ -91,7 +106,7 @@ export default function CartCard({ initialCartData }: CartDisplayProps) {
                 </button>
               </div>
               <button
-                onClick={() => updateQuantity(item.productId._id, 0)}
+                onClick={() => removeItem(item.productId._id ) }
                 disabled={isPending}
                 className="text-gray-400 hover:text-red-500 disabled:opacity-50 transition-colors"
                 title="Remove Item"
