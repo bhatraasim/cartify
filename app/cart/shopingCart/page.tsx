@@ -1,12 +1,13 @@
 'use client';
 import CartCard from "@/components/ui/CartCard";
+import { Types } from "mongoose";
 import { useEffect, useState } from "react";
 
 type CartType = {
   items: {
-    _id?: string;
+    _id?: Types.ObjectId;
     productId: {
-      _id: string;
+      _id: Types.ObjectId;
       title: string;
       price: number;
       url: string;
@@ -74,7 +75,7 @@ export default function CartPage() {
         Your Shopping Cart
       </h1>
       <p className="mb-4 text-center sm:text-left">Found {cartData.items.length} items</p>
-      <CartCard initialCartData={cartData} />
+      <CartCard initialCartData ={cartData} />
     </div>
   );
 }
