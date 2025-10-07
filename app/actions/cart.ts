@@ -2,7 +2,7 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import Cart, { CartItem, CartType } from "@/model/Cart";
-import { Types } from "mongoose";
+import { mongo, Types } from "mongoose";
 import { getServerSession } from "next-auth";
 
 
@@ -129,9 +129,7 @@ interface PopulatedCartType {
 
 export async function getCartData() {
   try {
-    console.log("Starting getCartData...");
     await connectToDatabase();
-    console.log("Connected to MongoDB");
 
     const session = await getServerSession(authOptions);
     console.log("Session:", session);
@@ -168,5 +166,75 @@ export async function getCartData() {
       message: "Error fetching cart data server",
       cart: null,
     };
+  }
+}
+
+
+export async function deleteItemFromCart( productId : Types.ObjectId) {
+  try {
+    await connectToDatabase()
+    const session = await getServerSession(authOptions)
+    if(!session?.user?.id){
+      throw new Error("User not authenticated")
+    }
+
+    const cart = await Cart.updateOne({userId : session.user.id} ,
+      { $pull: { items: { productId: productId } } }
+     )
+
+    if(!cart){
+      throw new Error("Cart not found")
+    }
+    return { success: true, message: "Item deleted from cart" }
+    
+
+
+  } catch (error) {
+    console.log(error)
+    return {
+      success: false,
+      message:
+        typeof error === "object" && error !== null && "message" in error
+          ? (error as { message: string }).message
+          : "error occured while deleting item from cart ",
+    };
+  }
+}
+
+export async function getCartPrice() {
+  try {
+    await connectToDatabase()
+    const session = await getServerSession(authOptions)
+    if(!session?.user?.id){
+      throw new Error("User not authenticated")
+    }
+    
+    // const cart = await Cart.findOne({userId : session.user.id}).populate("items.productId", "price")  
+    const cart = await Cart.findOne({ userId: session.user.id })
+      .select("items.quantity items.productId")
+      .populate({ path: "items.productId", select: "price" });
+
+    if(!cart){
+      throw new Error("Cart not found")
+    }
+    let total = 0;
+
+    for (const item of cart.items) {
+      const unitPrice = Number(item?.productId?.price) || 0;
+      const qty = Number(item?.quantity) || 0;
+      total += unitPrice * qty;
+    }
+
+    return { success: true, message: "Total price calculated", totalPrice : total }
+    
+  } catch (error) {
+    console.log(error)
+    return {
+      success: false,
+      message:
+        typeof error === "object" && error !== null && "message" in error
+          ? (error as { message: string }).message
+          : "error occured while calculating total price ",
+    }
   }
 }
