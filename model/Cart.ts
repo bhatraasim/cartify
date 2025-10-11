@@ -11,7 +11,7 @@ export interface CartType {
             // Add other Cart model properties if needed
 }
 
-const CartItemSchema = new Schema({
+export const CartItemSchema = new Schema({
     productId : { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
     quantity : { type: Number, required: true, min: 1 },
 })

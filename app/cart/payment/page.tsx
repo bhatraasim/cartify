@@ -1,256 +1,208 @@
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import RazorpayPayButton from '@/components/ui/RazorpayPayButton';
 import { getCartPrice } from '@/app/actions/cart';
-import { set } from 'mongoose';
+import Image from 'next/image';
 
-export default function FakePayPalPaymentPage() {
-  const [paymentMethod, setPaymentMethod] = useState('paypal');
-  const [loading, setLoading] = useState(false);
-  const [ price , setPrice ] = useState(0)
+export default function PaymentPage() {
+  const [price, setPrice] = useState(0);
 
-  const handlePayment = () => {
-    setLoading(true);
-    // Fake loading simulation
-    setTimeout(() => {
-      setLoading(false);
-      alert('This is a demo - no actual payment processed!');
-    }, 2000);
-  };
-
-  
   useEffect(() => {
     const getPrice = async () => {
-    const result = await getCartPrice()
-
-    setPrice(result.totalPrice || 0)
-
-  }
-
-    getPrice()
-  }, [])
-  
-
-
-
-
+      const price = await getCartPrice();
+      setPrice(price.totalPrice ?? 0);
+    };
+    getPrice();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-yellow-50/30 to-gray-100 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      {/* Animated Background Accent */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-yellow-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-300/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+
+      {/* Main Container */}
+      <div className="relative z-10 w-full max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <div className="bg-blue-600 text-white px-6 py-3 rounded-lg text-2xl font-bold mr-4">
-              PayPal
-            </div>
-            <div className="text-yellow-400 text-2xl">•••</div>
-            <div className="bg-yellow-400 text-black px-6 py-3 rounded-lg text-xl font-semibold ml-4">
-              Cartify
-            </div>
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center mb-6">
+            
           </div>
-          <p className="text-gray-600">Complete your secure payment</p>
+          <h1 className="text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">
+            Secure Payment
+          </h1>
+          <p className="text-lg text-gray-600 font-medium">
+            Complete your purchase using Razorpay
+          </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Payment Form */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              {/* Payment Method Selection */}
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Choose payment method</h2>
-                
-                <div className="space-y-4">
-                  {/* PayPal Option */}
-                  <div 
-                    className={`border-2 rounded-xl p-4 cursor-pointer transition-all {
-                      paymentMethod === 'paypal' ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                    onClick={() => setPaymentMethod('paypal')}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-6 h-6 rounded-full border-2 border-yellow-400 flex items-center justify-center">
-                          {paymentMethod === 'paypal' && <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>}
-                        </div>
-                        <div className="bg-blue-600 text-white px-4 py-2 rounded font-bold text-lg">
-                          PayPal
-                        </div>
-                        <span className="text-gray-600">Pay with your PayPal account</span>
-                      </div>
-                      <div className="text-yellow-600">
-                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                      </div>
-                    </div>
+        {/* Payment Card */}
+        <div className="bg-white rounded-3xl shadow-2xl shadow-gray-200/50 overflow-hidden border border-gray-100">
+          <div className="grid md:grid-cols-5 gap-0">
+            {/* Left: Payment Details */}
+            <div className="md:col-span-3 p-10 space-y-8">
+              {/* Total Amount Section */}
+              <div className="bg-gradient-to-br from-yellow-50 to-yellow-100/50 rounded-2xl p-8 border border-yellow-200/50">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2">
+                      Total Amount
+                    </p>
+                    <p className="text-5xl font-black text-gray-900 tracking-tight">
+                      ₹{price}
+                    </p>
                   </div>
-
-                  {/* Credit Card Option */}
-                  <div 
-                    className={`border-2 rounded-xl p-4 cursor-pointer transition-all {
-                      paymentMethod === 'card' ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                    onClick={() => setPaymentMethod('card')}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-6 h-6 rounded-full border-2 border-yellow-400 flex items-center justify-center">
-                          {paymentMethod === 'card' && <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>}
-                        </div>
-                        <div className="flex space-x-2">
-                          <div className="w-8 h-5 bg-blue-600 rounded text-white text-xs flex items-center justify-center font-bold">VISA</div>
-                          <div className="w-8 h-5 bg-red-500 rounded text-white text-xs flex items-center justify-center font-bold">MC</div>
-                        </div>
-                        <span className="text-gray-600">Credit or Debit Card</span>
-                      </div>
-                    </div>
+                  <div className="bg-yellow-400 text-black rounded-xl px-4 py-2 font-bold text-sm shadow-lg shadow-yellow-400/30">
+                    INR
                   </div>
                 </div>
               </div>
 
-              {/* PayPal Login Section */}
-              {paymentMethod === 'paypal' && (
-                <div className="space-y-6">
-                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="bg-blue-600 text-white px-4 py-2 rounded font-bold text-xl mr-4">PayPal</div>
-                      <div className="text-sm text-blue-700">
-                        <p>Log in to your PayPal account to complete this payment.</p>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Email or mobile number</label>
-                        <input
-                          type="email"
-                          placeholder="Enter your email"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition-colors"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                        <input
-                          type="password"
-                          placeholder="Enter your password"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition-colors"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              {/* Razorpay Button */}
+              <div className="space-y-4">
+                <RazorpayPayButton />
+              </div>
 
-              {/* Card Details Section */}
-              {paymentMethod === 'card' && (
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Card Number</label>
-                    <input
-                      type="text"
-                      placeholder="1234 5678 9012 3456"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition-colors"
-                    />
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
-                      <input
-                        type="text"
-                        placeholder="MM/YY"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition-colors"
+              {/* Security Note */}
+              <div className="bg-green-50 border border-green-200 rounded-xl p-5 flex items-start space-x-4">
+                <div className="flex-shrink-0">
+                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2.5}
+                      stroke="currentColor"
+                      className="w-5 h-5 text-green-600"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Security Code</label>
-                      <input
-                        type="text"
-                        placeholder="123"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition-colors"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Security Notice */}
-              <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <div className="flex items-center">
-                  <div className="text-yellow-600 mr-3">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <p className="text-sm text-yellow-800">Your payment information is encrypted and secure</p>
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-sm font-bold text-green-900 mb-1">
+                    Secure & Encrypted
+                  </h4>
+                  <p className="text-sm text-green-700 leading-relaxed">
+                    Payments are secured and encrypted by Razorpay with 256-bit SSL protection
+                  </p>
+                </div>
+              </div>
+
+              {/* Trust Badges */}
+              <div className="flex items-center justify-center space-x-6 pt-4 border-t border-gray-200">
+                <div className="flex items-center text-xs font-semibold text-gray-500">
+                  <svg className="w-4 h-4 mr-1.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                  </svg>
+                  SSL Secured
+                </div>
+                <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+                <div className="flex items-center text-xs font-semibold text-gray-500">
+                  <svg className="w-4 h-4 mr-1.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  PCI DSS Compliant
+                </div>
+                <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+                <div className="text-xs font-semibold text-gray-500">
+                  100% Safe
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
-              
-              <div className="space-y-4">
-                <div className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
-                    <span className="text-black font-bold">📦</span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">Sample Product</p>
-                    <p className="text-sm text-gray-600">Quantity: 1</p>
-                  </div>
-                </div>
-              </div>
+            {/* Right: Branding / Info */}
+            <div className="md:col-span-2 bg-gradient-to-br from-gray-900 via-gray-800 to-black p-10 flex flex-col justify-between text-white relative overflow-hidden">
+              {/* Decorative Elements */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-yellow-400/5 rounded-full blur-2xl"></div>
 
-              <div className="border-t border-gray-200 mt-6 pt-6 space-y-3">
-               
-                <div className="border-t border-gray-200 pt-3">
-                  <div className="flex justify-between text-xl font-bold text-gray-900">
-                    <span>Total ... </span>
-                    <span>{price}</span>
+              <div className="relative z-10">
+                <div className="mb-6">
+                  <div className="inline-block bg-neutral-200  px-6 py-2 rounded-lg text-2xl font-black mb-4 shadow-xl shadow-yellow-400/30">
+                    <img 
+                    src="/logo.png"
+                    alt="Cartify Logo"
+                    width={120}
+                    height={40}
+                    className="object-contain"
+                    />
                   </div>
                 </div>
-              </div>
-
-              {/* Pay Button */}
-              <Button
-                onClick={handlePayment}
-                disabled={loading}
-                className="w-full mt-6 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-4 text-lg rounded-xl transition-colors shadow-lg hover:shadow-xl"
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center">
-                    <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin mr-2"></div>
-                    Processing...
-                  </div>
-                ) : (
-                  <>Pay {price}</>
-                )}
-              </Button>
-
-              <div className="mt-4 text-center">
-                <p className="text-xs text-gray-500">
-                  By continuing, you agree to PayPal&apos;s terms and privacy policy
+                <h3 className="text-2xl font-bold mb-4 text-white">
+                  Fast & Reliable Payments
+                </h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Experience seamless, secure payments powered by India&apos;s leading payment gateway. Complete your purchase with confidence.
                 </p>
+
+                {/* Features */}
+                <div className="mt-8 space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-black" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white">Multiple Payment Options</p>
+                      <p className="text-xs text-gray-400">UPI, Cards, Wallets & More</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-black" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white">Instant Confirmation</p>
+                      <p className="text-xs text-gray-400">Real-time payment updates</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-black" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white">Bank-Grade Security</p>
+                      <p className="text-xs text-gray-400">256-bit encryption</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative z-10 mt-10 pt-6 border-t border-gray-700">
+                <div className="flex items-center justify-center space-x-3">
+                  <img
+                    src="https://razorpay.com/favicon.png"
+                    alt="Razorpay"
+                    className="w-8 h-8 opacity-90"
+                  />
+                  <div>
+                    <p className="text-xs text-gray-400 font-medium">Powered by</p>
+                    <p className="text-sm font-bold text-white">Razorpay</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500 mb-2">🔒 This is a demo payment page - No real transactions will be processed</p>
-          <div className="flex justify-center space-x-6 text-xs text-gray-400">
-            <span>Privacy</span>
-            <span>Legal</span>
-            <span>User Agreement</span>
-          </div>
+        <div className="mt-10 text-center">
+          <p className="text-sm text-gray-500">
+            © {new Date().getFullYear()} Cartify. All rights reserved.
+          </p>
         </div>
       </div>
     </div>

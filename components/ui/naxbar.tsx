@@ -36,7 +36,7 @@ function Navbar() {
   }, [menuOpen]);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-md rounded-lg px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+    <nav className="sticky top-0 z-50   backdrop-blur-sm shadow-md rounded-2xl px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
       {/* Logo aligned left on all screen sizes */}
       <Button
         asChild
