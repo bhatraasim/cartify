@@ -9,6 +9,12 @@ declare global {
   }
 }
 
+interface IRazorpayInterface {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
+
 export default function RazorpayPayButton() {
   const [price, setPrice] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -78,8 +84,7 @@ export default function RazorpayPayButton() {
         currency: "INR",
         name: "Cartify",  // Your store name
         description: "Purchase from Cartify",
-        handler: async function (response: any) {
-          console.log("Payment response:", response);
+        handler: async function (response:IRazorpayInterface) {
           
           // Send details to backend for verification
           const verifyRes = await fetch("/api/payment/verify", {
