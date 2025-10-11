@@ -119,7 +119,7 @@ export default function RazorpayPayButton() {
       const rzp = new window.Razorpay(options);
       
       // Handle payment failure
-      rzp.on('payment.failed', function (response: any) {
+      rzp.on('payment.failed', function (response:unknown) {
         console.error("Payment failed:", response);
         alert("Payment failed. Please try again.");
       });
