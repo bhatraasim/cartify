@@ -6,6 +6,7 @@ import Cart from "@/model/Cart";
 import Order from "@/model/Order";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 
 // In /api/payment/verify/route.ts
 export async function POST(request: Request) {
@@ -24,7 +25,6 @@ export async function POST(request: Request) {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = body;
 
         // Verify signature (important for security!)
-        const crypto = require('crypto');
         const generated_signature = crypto
             .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
             .update(`${razorpay_order_id}|${razorpay_payment_id}`)
