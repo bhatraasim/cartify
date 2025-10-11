@@ -3,9 +3,32 @@ import { getCartPrice } from "@/app/actions/cart";
 import React, { useEffect, useState } from "react";
 import { Button } from "./button";
 
+type RazorpayOptions = {
+  key: string | undefined;
+  order_id: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  handler: (response: IRazorpayInterface) => void;
+  prefill: {
+    name: string;
+    email: string;
+    contact: string;
+  };
+  theme: {
+    color: string;
+  };
+};
+
+interface RazorpayInstance {
+  open(): void;
+  on(event: "payment.failed", handler: (response: unknown) => void): void;
+}
+
 declare global {
   interface Window {
-    Razorpay: any;
+    Razorpay: new (options: RazorpayOptions) => RazorpayInstance;
   }
 }
 

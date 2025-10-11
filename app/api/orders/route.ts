@@ -206,17 +206,12 @@ export async function POST(request: Request) {
             dbOrderId: newOrder._id,
         });
 
-    } catch (error: any) {
-        console.error("💥 ERROR in /api/orders");
-        console.error("Error name:", error?.name);
-        console.error("Error message:", error?.message);
-        console.error("Error stack:", error?.stack);
-        console.error("Full error:", error);
+    } catch (error) {
+        console.error("💥 ERROR in /api/orders",error);
         
         return NextResponse.json({ 
             success: false, 
             message: "Internal Server Error (Razorpay orders)",
-            error: process.env.NODE_ENV === 'development' ? error?.message : undefined
         }, { status: 500 });
     }
 }
