@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "./button";
 import Loader from "./Loader";
+import { useSession } from "next-auth/react";
 
 type RazorpayOptions = {
   key: string | undefined;
@@ -43,8 +44,10 @@ export default function RazorpayPayButton() {
   const [loading, setLoading] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
+  const session = useSession()
   // Load Razorpay script
   useEffect(() => {
+
     const loadRazorpayScript = () => {
       return new Promise((resolve) => {
         // Check if script is already loaded
@@ -102,10 +105,8 @@ export default function RazorpayPayButton() {
 
     setLoading(true);
     try {
-      console.log("🟢 Pay button clicked");
       const res = await fetch("/api/orders", { method: "POST" });
       const data = await res.json();
-      console.log("📦 Order data:", data);
 
       if (!data.success) {
         alert("Failed to create order");
@@ -115,10 +116,10 @@ export default function RazorpayPayButton() {
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        order_id: data.razorpayOrderId,  // ✅ Fixed to use razorpayOrderId
+        order_id: data.razorpayOrderId, 
         amount: data.amount,
         currency: "INR",
-        name: "Cartify",  // Your store name
+        name: "Cartify", 
         description: "Purchase from Cartify",
         handler: async function (response:IRazorpayInterface) {
           
@@ -143,9 +144,9 @@ export default function RazorpayPayButton() {
           }
         },
         prefill: {
-          name: "",  // You can add user name from session
-          email: "",  // You can add user email from session
-          contact: "",
+          name: session.data?.user?.name ? String(session.data.user.name) : "",  // Use user name or empty string
+          email: session.data?.user?.email ? String(session.data.user.email) : "",  // Use user email or empty string
+          contact: "", // You can add user contact if available
         },
         theme: { 
           color: "#FACC15"  // yellow-400 to match your theme

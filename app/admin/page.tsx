@@ -1,5 +1,6 @@
 
 
+import { Button } from '@/components/ui/button'
 import { Users, FileText, Activity, Settings, BarChart3, Plus } from 'lucide-react'
 import Link from 'next/link'
 
@@ -19,7 +20,22 @@ export default function AdminPage() {
             </div>
           </div>
         </div>
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-gray-900">Admin</h1>
+            
+            <div className="flex items-center gap-4  py-2 px-2.5 bg-yellow-400 rounded-2xl">
+              <Link href={"/admin/orders"} className="text-sm font-medium text-gray-700">
+                <span> Orders </span>
+              </Link>
+            </div>
+          </div>
+        </div>
       </header>
+
+      
+      
+      
 
       {/* Navigation */}
       <nav className="border-b border-gray-100 bg-white">
