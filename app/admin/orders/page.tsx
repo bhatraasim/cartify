@@ -51,8 +51,8 @@ export default function AdminOrdersPage() {
       } else {
         setError(data.message);
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError('An unexpected error occurred while fetching orders.');
     } finally {
       setLoading(false);
     }
