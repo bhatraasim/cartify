@@ -107,6 +107,13 @@ function Navbar() {
               >
                 Home
               </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                onClick={() => setMenuOpen(false)}
+              >
+                Your Orders
+              </Link>
 
               <Link
                 href="/notifications"
@@ -171,11 +178,33 @@ function Navbar() {
           />
         )}
 
-        <Home className="cursor-pointer" />
-        <Bell className="cursor-pointer" />
-        <Link href="/cart/shopingCart">
-          <ShoppingBag className="cursor-pointer" />
+
+        <Link
+          href="/"
+          className="block p-2  rounded-2xl text-sm text-gray-700 hover:bg-gray-100 border py-2 hover:border-yellow-400 hover:shadow"
+          onClick={() => setMenuOpen(false)}
+        >
+          Your Orders
         </Link>
+        
+        
+
+        <Link
+          href="/"
+          className="block p-2  rounded-2xl text-sm text-gray-700 hover:text-yellow-400 hover:shadow"
+          onClick={() => setMenuOpen(false)}
+        >
+          <Bell className="cursor-pointer" />
+        </Link>
+
+
+        <Link
+          href="/cart/shopingCart"
+          className="block text-sm p-2  rounded-2xl  text-gray-700  hover:text-yellow-400 hover:shadow"
+        >
+          <ShoppingBag className="cursor-pointer " />
+        </Link>
+
 
         {session ? (
           <Button

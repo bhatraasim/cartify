@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 
 interface Order {
   _id: string;
-  userId: {
-    name: string;
-    email: string;
+  userId?: {
+    name?: string;
+    email?: string;
   };
   products: Array<{
     productId: string;
@@ -16,11 +16,11 @@ interface Order {
   }>;
   totalPrice: number;
   status: string;
-  shippingAddress: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
+  shippingAddress?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zipCode?: string;
   };
   createdAt: string;
   updatedAt: string;
@@ -51,8 +51,8 @@ export default function AdminOrdersPage() {
       } else {
         setError(data.message);
       }
-    } catch (error) {
-      setError('An unexpected error occurred while fetching orders.');
+    } catch (err: any) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -65,11 +65,15 @@ export default function AdminOrdersPage() {
       order._id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const totalRevenue = orders.reduce((sum, order) => sum + order.totalPrice, 0);
-  const totalProducts = orders.reduce(
-    (sum, order) => sum + order.products.reduce((pSum, p) => pSum + p.quantity, 0),
-    0
-  );
+  // FIX: Add safety checks for undefined products array
+  const totalRevenue = orders.reduce((sum, order) => sum + (order.totalPrice || 0), 0);
+  
+  const totalProducts = orders.reduce((sum, order) => {
+    if (!order.products || !Array.isArray(order.products)) {
+      return sum;
+    }
+    return sum + order.products.reduce((pSum, p) => pSum + (p.quantity || 0), 0);
+  }, 0);
 
   if (loading) {
     return (
@@ -233,10 +237,10 @@ export default function AdminOrdersPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <span className="bg-gray-100 px-3 py-1 rounded-full text-sm font-semibold text-gray-700">
-                          {order.products.length} items
+                          {order.products?.length || 0} items
                         </span>
                         <span className="ml-2 text-sm text-gray-500">
-                          ({order.products.reduce((sum, p) => sum + p.quantity, 0)} qty)
+                          ({order.products?.reduce((sum, p) => sum + (p.quantity || 0), 0) || 0} qty)
                         </span>
                       </div>
                     </td>
@@ -307,7 +311,7 @@ export default function AdminOrdersPage() {
                 <div>
                   <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Products</p>
                   <p className="font-semibold text-gray-900">
-                    {order.products.length} items ({order.products.reduce((sum, p) => sum + p.quantity, 0)} qty)
+                    {order.products?.length || 0} items ({order.products?.reduce((sum, p) => sum + (p.quantity || 0), 0) || 0} qty)
                   </p>
                 </div>
                 <div>

@@ -40,9 +40,13 @@ export async function GET(req: NextRequest) {
     await connectToDatabase();
 
     // Get all completed orders
-    const completedOrders = await Order.find({ status: 'completed' })
+    const completedOrders = await Order
+      .find({ status: 'completed' })
       .sort({ createdAt: -1 }) // Sort by newest first
-      .populate('userId', 'name email') // Populate user details if needed
+      .populate({
+        path: 'userId',
+        select: 'name email', 
+      }) // Populate user details if needed
       .lean();
 
     return NextResponse.json(
