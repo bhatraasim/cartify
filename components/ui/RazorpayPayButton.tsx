@@ -1,5 +1,4 @@
 "use client";
-import { getCartPrice } from "@/app/actions/cart";
 import React, { useEffect, useState } from "react";
 import { Button } from "./button";
 
@@ -69,17 +68,19 @@ export default function RazorpayPayButton() {
       });
     };
 
+    const getTotalPrice = async () => {
+      const res = await fetch("api/cart/getPrice", { method: "GET" })
+      const data = await res.json();
+      setPrice(data.totalPrice || 0);
+    }
+
     loadRazorpayScript();
+    getTotalPrice();
   }, []);
 
-  // Get cart price
-  useEffect(() => {
-    const getPrice = async () => {
-      const result = await getCartPrice();
-      setPrice(result.totalPrice || 0);
-    };
-    getPrice();
-  }, []);
+  
+
+  
 
   const handlePayment = async () => {
     if (!scriptLoaded) {
