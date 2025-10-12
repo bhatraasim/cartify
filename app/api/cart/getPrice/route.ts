@@ -24,7 +24,7 @@ export async function GET() {
 
     let total = 0;
     for (const item of cart.items) {
-      total += Number(item?.productId?.price || 0) * Number(item?.quantity || 0);
+      total += Number(item?.productId?.price) * Number(item?.quantity);
     }
 
     return NextResponse.json({ success: true, totalPrice: total });

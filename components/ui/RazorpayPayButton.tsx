@@ -68,14 +68,23 @@ export default function RazorpayPayButton() {
       });
     };
 
-    const getTotalPrice = async () => {
-      const res = await fetch("api/cart/getPrice", { method: "GET" })
-      const data = await res.json();
-      setPrice(data.totalPrice || 0);
+    const fetchPrice = async () => {
+      try {
+        const res = await fetch('/api/cart/getPrice', { method: 'GET' });
+        const data = await res.json();
+        if (data.success) {
+          setPrice(data.totalPrice);
+        } else {
+          console.error('Failed to fetch price:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching price:', error);
+      }
     }
+    fetchPrice();
 
     loadRazorpayScript();
-    getTotalPrice();
+    fetchPrice();
   }, []);
 
   

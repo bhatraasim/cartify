@@ -2,18 +2,25 @@
 
 import React, { useEffect, useState } from 'react';
 import RazorpayPayButton from '@/components/ui/RazorpayPayButton';
-import { getCartPrice } from '@/app/actions/cart';
-import Image from 'next/image';
 
 export default function PaymentPage() {
   const [price, setPrice] = useState(0);
 
   useEffect(() => {
-    const getPrice = async () => {
-      const price = await getCartPrice();
-      setPrice(price.totalPrice ?? 0);
-    };
-    getPrice();
+    const fetchPrice = async () => {
+      try {
+        const res = await fetch('/api/cart/getPrice', { method: 'GET' });
+        const data = await res.json();
+        if (data.success) {
+          setPrice(data.totalPrice);
+        } else {
+          console.error('Failed to fetch price:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching price:', error);
+      }
+    }
+    fetchPrice();
   }, []);
 
   return (
