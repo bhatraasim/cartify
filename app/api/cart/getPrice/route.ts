@@ -28,8 +28,8 @@ export async function GET() {
     }
 
     return NextResponse.json({ success: true, totalPrice: total });
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    return Response.json({ success: false, message: error.message });
+    return Response.json({ success: false, message: error });
   }
 }
