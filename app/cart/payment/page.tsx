@@ -2,17 +2,21 @@
 
 import React, { useEffect, useState } from 'react';
 import RazorpayPayButton from '@/components/ui/RazorpayPayButton';
+import MotionLoader from '@/components/ui/Loader';
 
 export default function PaymentPage() {
   const [price, setPrice] = useState(0);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchPrice = async () => {
       try {
+        setLoading(true )
         const res = await fetch('/api/cart/getPrice', { method: 'GET' });
         const data = await res.json();
         if (data.success) {
           setPrice(data.totalPrice);
+          setLoading(false)
         } else {
           console.error('Failed to fetch price:', data.message);
         }
@@ -58,9 +62,9 @@ export default function PaymentPage() {
                     <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2">
                       Total Amount
                     </p>
-                    <p className="text-5xl font-black text-gray-900 tracking-tight">
-                      ₹{price}
-                    </p>
+                    <span className="text-5xl font-black text-gray-900 tracking-tight">
+                      {loading ? <MotionLoader /> : price.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}
+                    </span>
                   </div>
                   <div className="bg-yellow-400 text-black rounded-xl px-4 py-2 font-bold text-sm shadow-lg shadow-yellow-400/30">
                     INR

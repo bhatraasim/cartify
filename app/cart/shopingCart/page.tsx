@@ -1,5 +1,6 @@
 'use client';
 import CartCard from "@/components/ui/CartCard";
+import Loader from "@/components/ui/Loader";
 import { Types } from "mongoose";
 import { useEffect, useState } from "react";
 
@@ -46,7 +47,7 @@ export default function CartPage() {
   if (loading) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-5xl text-center">
-        <p className="text-lg font-semibold">Loading cart...</p>
+        <Loader />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "./button";
+import Loader from "./Loader";
 
 type RazorpayOptions = {
   key: string | undefined;
@@ -70,9 +71,11 @@ export default function RazorpayPayButton() {
 
     const fetchPrice = async () => {
       try {
+        setLoading(true);
         const res = await fetch('/api/cart/getPrice', { method: 'GET' });
         const data = await res.json();
         if (data.success) {
+          setLoading(false);
           setPrice(data.totalPrice);
         } else {
           console.error('Failed to fetch price:', data.message);
@@ -178,7 +181,7 @@ export default function RazorpayPayButton() {
           Processing...
         </div>
       ) : !scriptLoaded ? (
-        "Loading..."
+        <Loader />
       ) : (
         <>Pay ₹{price.toFixed(2)}</>
       )}

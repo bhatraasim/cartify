@@ -74,11 +74,11 @@ export default function AddressDisplay({ initialAddresses }: AddressDisplayProps
       </div>
 
       {/* Address Cards Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6  md:grid-cols-2 lg:grid-cols-3 ">
         {addresses.map((address, index) => (
           <div
             key={address._id}
-            className="group relative bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 hover:border-yellow-300"
+            className="group relative bg-white rounded-2xl  shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 hover:border-yellow-300"
           >
             {/* Default Badge */}
             {index === 0 && (
@@ -138,18 +138,10 @@ export default function AddressDisplay({ initialAddresses }: AddressDisplayProps
             </div>
 
             {/* Action Buttons */}
-            <div className="mt-6 pt-4 border-t border-gray-100">
+            <div className="mt-6 pt-4 border-t border-gray-100 ">
               <div className="flex justify-between items-center">
                 <div className="flex space-x-2">
-                  <button
-                    onClick={() => handleEdit(address._id)}
-                    className="inline-flex items-center px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-50 rounded-full hover:bg-yellow-100 transition-colors"
-                  >
-                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                    Edit
-                  </button>
+                  
                   
                   {index !== 0 && (
                     <button
