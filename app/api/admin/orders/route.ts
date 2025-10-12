@@ -1,14 +1,13 @@
 // app/api/admin/orders/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
-import Order from '@/model/Order'; // adjust based on your Order model
+import Order from '@/model/Order';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import { connectToDatabase } from '@/lib/db';
 
 export async function GET(req: NextRequest) {
   try {
-    // Check authentication
     const session = await getServerSession(authOptions);
     
     if (!session || !session.user) {
@@ -36,17 +35,16 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Connect to database
     await connectToDatabase();
 
-    // Get all completed orders
+    // Change 'user' to 'userId' to match your schema
     const completedOrders = await Order
       .find({ status: 'completed' })
-      .sort({ createdAt: -1 }) // Sort by newest first
+      .sort({ createdAt: -1 })
       .populate({
-        path: 'userId',
-        select: 'name email', 
-      }) // Populate user details if needed
+        path: 'userId',  // Changed from 'user' to 'userId'
+        select: '', 
+      })
       .lean();
 
     return NextResponse.json(
