@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import Search from "./Search";
+import { BsCart } from "react-icons/bs";
 
 function Navbar() {
   const { data: session } = useSession();
@@ -181,30 +182,22 @@ function Navbar() {
 
         <Link
           href="/"
-          className="block p-2  rounded-2xl text-sm text-gray-700 hover:bg-gray-100 border py-2 hover:border-yellow-400 hover:shadow"
+          className="block p-2  rounded-2xl text-sm  hover:bg-gray-100 border py-2 hover:border-yellow-400 hover:shadow font-semibold text-slate-500  hover:text-black"
           onClick={() => setMenuOpen(false)}
         >
-          Your Orders
+          <span  className="mx-2 "> Your Orders </span>
         </Link>
-        
-        
-
-        <Link
-          href="/"
-          className="block p-2  rounded-2xl text-sm text-gray-700 hover:text-yellow-400 hover:shadow"
-          onClick={() => setMenuOpen(false)}
-        >
-          <Bell className="cursor-pointer" />
-        </Link>
-
 
         <Link
           href="/cart/shopingCart"
-          className="block text-sm p-2  rounded-2xl  text-gray-700  hover:text-yellow-400 hover:shadow"
+          className="block p-2  rounded-2xl text-sm  hover:bg-gray-100 border py-2 hover:border-yellow-400 hover:shadow font-semibold text-slate-500  hover:text-black"
+          onClick={() => setMenuOpen(false)}
         >
-          <ShoppingBag className="cursor-pointer " />
+          <span  className="mx-2 flex justify-center items-center gap-2 ">  <BsCart className="cursor-pointer " size='20' />  Cart  </span>
         </Link>
 
+
+        
 
         {session ? (
           <Button
